@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Inspiration - Stoicism Quotes</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      position: relative;
+      overflow: hidden;
+      color: #292524;
+    }
+    
+    /* Background styles */
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #fef3c7, #ffe4e6, #e0f2fe);
+      z-index: -2;
+    }
+    
+    /* Animated background circles */
+    .bg-circle {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(50px);
+      opacity: 0.4;
+      z-index: -1;
+      animation: pulse 8s infinite ease-in-out;
+    }
+    
+    .bg-circle:nth-child(1) {
+      width: 300px;
+      height: 300px;
+      background-color: rgba(251, 191, 36, 0.3);
+      top: 20%;
+      left: 25%;
+    }
+    
+    .bg-circle:nth-child(2) {
+      width: 400px;
+      height: 400px;
+      background-color: rgba(251, 113, 133, 0.3);
+      bottom: 20%;
+      right: 30%;
+      animation-delay: 2s;
+      animation-duration: 10s;
+    }
+    
+    .bg-circle:nth-child(3) {
+      width: 350px;
+      height: 350px;
+      background-color: rgba(56, 189, 248, 0.3);
+      top: 30%;
+      right: 25%;
+      animation-delay: 1s;
+      animation-duration: 9s;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 0.2; transform: scale(1.05); }
+    }
+    
+    /* Card styles */
+    .card {
+      width: 100%;
+      max-width: 600px;
+      background-color: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Header styles */
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .sparkle {
+      display: inline-block;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      animation: rotate 20s linear infinite;
+    }
+    
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    h1 {
+      font-family: Georgia, serif;
+      font-size: 1.8rem;
+      color: #44403c;
+    }
+    
+    /* Quote styles */
+    .quote-container {
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-bottom: 2rem;
+      transition: opacity 0.5s ease;
+    }
+    
+    blockquote {
+      font-family: Georgia, serif;
+      font-size: 1.5rem;
+      font-style: italic;
+      text-align: center;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+    
+    cite {
+      display: block;
+      text-align: right;
+      font-style: normal;
+      font-weight: 500;
+      color: #57534e;
+    }
+    
+    /* Button styles */
+    .button-container {
+      display: flex;
+      justify-content: center;
+    }
+    
+    button {
+      background-color: #d97706;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    
+    button:hover {
+      background-color: #b45309;
+    }
+    
+    button:active {
+      transform: translateY(1px);
+    }
+    
+    .refresh-icon {
+      margin-right: 0.5rem;
+      transition: transform 0.5s ease;
+    }
+    
+    button:hover .refresh-icon {
+      transform: rotate(180deg);
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 640px) {
+      .card {
+        padding: 1.5rem;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+      
+      blockquote {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background elements -->
+  <div class="background"></div>
+  <div class="bg-circle"></div>
+  <div class="bg-circle"></div>
+  <div class="bg-circle"></div>
+  
+  <!-- Main content -->
+  <div class="card">
+    <div class="header">
+      <div class="sparkle">✨</div>
+      <h1>Daily Inspiration</h1>
+    </div>
+    
+    <div id="quote-container" class="quote-container">
+      <blockquote id="quote-text"></blockquote>
+      <cite id="quote-author"></cite>
+    </div>
+    
+    <div class="button-container">
+      <button id="new-quote-btn" onclick="displayRandomQuote()">
+        <span class="refresh-icon">↻</span>
+        New Quote
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Collection of Stoicism quotes
+    const quotes = [
+      {
+        text: "You have power over your mind - not outside events. Realize this, and you will find strength.",
+        author: "Marcus Aurelius"
+      },
+      {
+        text: "The happiness of your life depends upon the quality of your thoughts.",
+        author: "Marcus Aurelius"
+      },
+      {
+        text: "Waste no more time arguing about what a good man should be. Be one.",
+        author: "Marcus Aurelius"
+      },
+      {
+        text: "The best revenge is to be unlike him who performed the injury.",
+        author: "Marcus Aurelius"
+      },
+      {
+        text: "It is not death that a man should fear, but he should fear never beginning to live.",
+        author: "Marcus Aurelius"
+      },
+      {
+        text: "If it is not right, do not do it, if it is not true, do not say it.",
+        author: "Marcus Aurelius"
+      },
+      {
+        text: "Very little is needed to make a happy life; it is all within yourself, in your way of thinking.",
+        author: "Marcus Aurelius"
+      },
+      {
+        text: "He who lives in harmony with himself lives in harmony with the universe.",
+        author: "Marcus Aurelius"
+      },
+      {
+        text: "The soul becomes dyed with the color of its thoughts.",
+        author: "Marcus Aurelius"
+      },
+      {
+        text: "Man is not worried by real problems so much as by his imagined anxieties about real problems.",
+        author: "Epictetus"
+      },
+      {
+        text: "Make the best use of what is in your power, and take the rest as it happens.",
+        author: "Epictetus"
+      },
+      {
+        text: "It's not what happens to you, but how you react to it that matters.",
+        author: "Epictetus"
+      },
+      {
+        text: "First say to yourself what you would be; and then do what you have to do.",
+        author: "Epictetus"
+      },
+      {
+        text: "Wealth consists not in having great possessions, but in having few wants.",
+        author: "Epictetus"
+      },
+      {
+        text: "He is a wise man who does not grieve for the things which he has not, but rejoices for those which he has.",
+        author: "Epictetus"
+      },
+      {
+        text: "If you want to improve, be content to be thought foolish and stupid.",
+        author: "Epictetus"
+      },
+      {
+        text: "We suffer more often in imagination than in reality.",
+        author: "Seneca"
+      },
+      {
+        text: "Luck is what happens when preparation meets opportunity.",
+        author: "Seneca"
+      },
+      {
+        text: "As is a tale, so is life: not how long it is, but how good it is, is what matters.",
+        author: "Seneca"
+      },
+      {
+        text: "Difficulties strengthen the mind, as labor does the body.",
+        author: "Seneca"
+      },
+      {
+        text: "If a man knows not to which port he sails, no wind is favorable.",
+        author: "Seneca"
+      },
+      {
+        text: "Begin at once to live, and count each separate day as a separate life.",
+        author: "Seneca"
+      },
+      {
+        text: "The greatest obstacle to living is expectancy, which hangs upon tomorrow and loses today.",
+        author: "Seneca"
+      },
+      {
+        text: "What we fear doing most is usually what we most need to do.",
+        author: "Zeno of Citium"
+      },
+      {
+        text: "Better to trip with the feet than with the tongue.",
+        author: "Zeno of Citium"
+      },
+      {
+        text: "All the good are friends of one another.",
+        author: "Zeno of Citium"
+      },
+      {
+        text: "No loss should be more regrettable to us than losing our time, for it's irretrievable.",
+        author: "Zeno of Citium"
+      },
+      {
+        text: "The goal of life is living in agreement with Nature.",
+        author: "Zeno of Citium"
+      },
+      {
+        text: "The reason why we have two ears and only one mouth is that we may listen the more and talk the less.",
+        author: "Zeno of Citium"
+      },
+      {
+        text: "When we are no longer able to change a situation, we are challenged to change ourselves.",
+        author: "Viktor Frankl"
+      }
+    ];
+    
+    // DOM elements
+    const quoteContainer = document.getElementById('quote-container');
+    const quoteText = document.getElementById('quote-text');
+    const quoteAuthor = document.getElementById('quote-author');
+    
+    // Function to display a random quote with fade effect
+    function displayRandomQuote() {
+      // Fade out
+      quoteContainer.style.opacity = 0;
+      
+      setTimeout(() => {
+        // Get random quote
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        const randomQuote = quotes[randomIndex];
+        
+        // Update DOM
+        quoteText.textContent = `"${randomQuote.text}"`;
+        quoteAuthor.textContent = `— ${randomQuote.author}`;
+        
+        // Fade in
+        quoteContainer.style.opacity = 1;
+      }, 500);
+    }
+    
+    // Display a quote when the page loads
+    document.addEventListener('DOMContentLoaded', displayRandomQuote);
+  </script>
+</body>
+</html>
